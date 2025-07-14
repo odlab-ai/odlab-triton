@@ -1,0 +1,85 @@
+name: "yolov_ensemble"
+platform: "ensemble"
+
+max_batch_size: 16
+
+input [
+  {
+    name: "INPUT"
+    data_type: TYPE_UINT8
+    dims: [-1]
+  }
+]
+
+output [
+  {
+    name: "OUTPUT"
+    data_type: TYPE_FP32
+    dims: [-1, -1, 6]  # batch_size x max_detections x [x1,y1,x2,y2,score,class]
+  }
+]
+
+ensemble_scheduling {
+  step [
+    {
+      model_name: "yolov_preprocess"
+      model_version: -1
+      input_map {
+        key: "INPUT_0"
+        value: "INPUT"
+      }
+      output_map {
+        key: "OUTPUT_0"
+        value: "PREPROCESSED_IMAGE"
+      }
+      output_map {
+        key: "OUTPUT_1"
+        value: "RATIO"
+      }
+      output_map {
+        key: "OUTPUT_2"
+        value: "DWDH"
+      }
+      output_map {
+        key: "OUTPUT_3"
+        value: "ORIGINAL_SHAPE"
+      }
+    },
+    {
+      model_name: "yolov9-c_trt" # change the model name here
+      model_version: -1
+      input_map {
+        key: "images"
+        value: "PREPROCESSED_IMAGE"
+      }
+      output_map {
+        key: "output0"
+        value: "RAW_OUTPUT"
+      }
+    },
+    {
+      model_name: "yolov_postprocess"
+      model_version: -1
+      input_map {
+        key: "INPUT_0"
+        value: "RAW_OUTPUT"
+      }
+      input_map {
+        key: "INPUT_1"
+        value: "RATIO"
+      }
+      input_map {
+        key: "INPUT_2"
+        value: "DWDH"
+      }
+      input_map {
+        key: "INPUT_3"
+        value: "ORIGINAL_SHAPE"
+      }
+      output_map {
+        key: "OUTPUT_0"
+        value: "OUTPUT"
+      }
+    }
+  ]
+}
