@@ -20,14 +20,14 @@ for onnx in "$INPUT_PATH"/*.onnx; do
   echo "   ↪ Output: $outdir/model.trt"
   python3 src/generate_config.py "$onnx" "$OUTPUT_PATH/${name}_trt"
   
-#   trtexec \
-#     --onnx="$onnx" \
-#     --saveEngine="$outdir/model.plan" \
-#     --minShapes=${INPUT_NAME}:1x3x640x640 \
-#     --optShapes=${INPUT_NAME}:1x3x640x640 \
-#     --maxShapes=${INPUT_NAME}:16x3x640x640 \
-#     --fp16 \
-#     --memPoolSize=workspace:1024
+  trtexec \
+    --onnx="$onnx" \
+    --saveEngine="$outdir/model.plan" \
+    --minShapes=${INPUT_NAME}:1x3x640x640 \
+    --optShapes=${INPUT_NAME}:1x3x640x640 \
+    --maxShapes=${INPUT_NAME}:16x3x640x640 \
+    --fp16 \
+    --memPoolSize=workspace:1024
 done
 
 echo "✅ All model converted sucessfully."
