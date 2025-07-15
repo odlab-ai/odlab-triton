@@ -8,7 +8,7 @@ odlab-triton/
 ├── weights/              # ONNX and TensorRT engine files
 ├── scripts/              # Conversion and helper scripts
 ├── assets/               # Test images
-└── client.py             # Triton client script for inference
+└── src/inference.py         # Triton client script for inference
 ```
 
 ## Setup environment
