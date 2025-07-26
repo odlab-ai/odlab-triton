@@ -3,6 +3,8 @@ import cv2
 import numpy as np
 import triton_python_backend_utils as pb_utils
 
+
+
 class TritonPythonModel:
     def initialize(self, args):
         """
@@ -11,8 +13,14 @@ class TritonPythonModel:
         self.model_config = json.loads(args["model_config"])
 
         # Get OUTPUT0 configuration
-        output0_config = pb_utils.get_output_config_by_name(self.model_config, "OUTPUT_0")
-        self.output0_dtype = pb_utils.triton_string_to_numpy(output0_config["data_type"])
+        output0_config = pb_utils.get_output_config_by_name(
+            self.model_config, "OUTPUT_0"
+        )
+
+        # Convert Triton types to numpy types
+        self.output0_dtype = pb_utils.triton_string_to_numpy(
+            output0_config["data_type"]
+        )
 
     def execute(self, requests):
         """
