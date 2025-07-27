@@ -3,8 +3,6 @@ import cv2
 import numpy as np
 import triton_python_backend_utils as pb_utils
 
-
-
 class TritonPythonModel:
     def initialize(self, args):
         """
@@ -13,14 +11,8 @@ class TritonPythonModel:
         self.model_config = json.loads(args["model_config"])
 
         # Get OUTPUT0 configuration
-        output0_config = pb_utils.get_output_config_by_name(
-            self.model_config, "OUTPUT_0"
-        )
-
-        # Convert Triton types to numpy types
-        self.output0_dtype = pb_utils.triton_string_to_numpy(
-            output0_config["data_type"]
-        )
+        output0_config = pb_utils.get_output_config_by_name(self.model_config, "OUTPUT_0")
+        self.output0_dtype = pb_utils.triton_string_to_numpy(output0_config["data_type"])
 
     def execute(self, requests):
         """
@@ -42,7 +34,8 @@ class TritonPythonModel:
                     raise pb_utils.TritonModelException(
                         f"Invalid input image shape: {img.shape if img is not None else None}. Expected [height, width, 3]."
                     )
-
+                
+                img = self.decode(img)
                 h, w = img.shape[:2]
                 original_shapes.append([h, w])
 
@@ -108,3 +101,16 @@ class TritonPythonModel:
         im /= 255.0  # Normalize to [0, 1]
 
         return im, r, (dw, dh)
+    
+    def decode(self, img: np.ndarray, pad_value: int = 128) -> np.ndarray:
+        """
+        Auto-remove padding from image based on constant pad_value (e.g. 128).
+        Works when padding is uniformly applied with a known color.
+        """
+        mask = ~(img == pad_value).all(axis=2)
+        ys, xs = np.where(mask)
+        if len(ys) == 0 or len(xs) == 0:
+            return img
+        top, bottom = ys.min(), ys.max()
+        left, right = xs.min(), xs.max()
+        return img[top:bottom+1, left:right+1]

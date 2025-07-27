@@ -76,7 +76,7 @@ def run(
         padded_images = []
         for img in batch_images:
             h, w = img.shape[:2]
-            padded_img = np.zeros((max_height, max_width, 3), dtype=np.uint8)
+            padded_img = np.full((max_height, max_width, 3), 128, dtype=np.uint8)
             padded_img[:h, :w, :] = img
             padded_images.append(padded_img)
 
