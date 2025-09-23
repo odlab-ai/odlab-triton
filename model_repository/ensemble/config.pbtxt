@@ -1,0 +1,37 @@
+name: "ensemble"
+platform: "ensemble"
+
+max_batch_size: 
+
+input [
+  {
+    name: 
+    data_type: 
+    dims: 
+  }
+]
+
+output [
+  {
+    name: 
+    data_type: 
+    dims:
+  }
+]
+
+ensemble_scheduling {
+  step [
+    {
+      model_name: "preprocess"
+      model_version: -1 # set -1 get lastest version
+    },
+    {
+      model_name: "model"
+      model_version: -1 # set -1 get lastest version
+    },
+    {
+      model_name: "postprocess"
+      model_version: -1 # set -1 get lastest version
+    }
+  ]
+}

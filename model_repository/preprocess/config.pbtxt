@@ -1,0 +1,33 @@
+name: "preprocess"
+backend: "python"
+
+max_batch_size: 
+
+input [
+  {
+    name: 
+    data_type: 
+    dims: 
+  }
+]
+
+output [
+  {
+    name: 
+    data_type: 
+    dims: 
+  }
+]
+
+dynamic_batching {
+  max_queue_delay_microseconds: 
+  preferred_batch_size: 
+}
+
+instance_group [
+  {
+    kind: 
+    count: 
+    gpus: 
+  }
+]

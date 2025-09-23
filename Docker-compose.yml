@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  triton:
+    image: "${IMAGE_NAME}:${IMAGE_VERSION}"
+    build:
+      context: .
+      dockerfile: Docker.triton
+    shm_size: 1g
+    ports:
+      - "8068:8000"
+      - "8069:8001"
+      - "8070:8002"
+    volumes:
+      - ./model_repository:/models
+      - ./workspace:/workspace
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    command: tritonserver --model-repository=/models

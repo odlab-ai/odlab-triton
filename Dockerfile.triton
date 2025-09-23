@@ -1,0 +1,10 @@
+FROM nvcr.io/nvidia/tritonserver:25.04-py3
+
+WORKDIR /workspace
+COPY model_repository/ /models
+
+RUN apt-get update && apt-get install -y libgl1 \
+    && pip install opencv-python numpy \
+    && rm -rf /var/lib/apt/lists/*
+
+CMD ["tritonserver", "--model-repository=/models"]

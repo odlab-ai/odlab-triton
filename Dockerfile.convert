@@ -1,0 +1,12 @@
+FROM nvcr.io/nvidia/tensorrt:25.04-py3
+
+WORKDIR /workspace
+COPY scripts/ /workspace/scripts
+COPY weights/ /workspace/weights
+
+RUN apt-get update && apt-get install -y bash \
+    && pip install --no-cache-dir onnx \
+    && rm -rf /var/lib/apt/lists/*
+    
+
+CMD ["bash", "/workspace/scripts/onnx2trt.sh"]
