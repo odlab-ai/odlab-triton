@@ -1,7 +1,13 @@
 # odlab-triton
-A lightweight, modular toolkit for deploying **Computer Vision models** with [NVIDIA Triton Inference Server](https://developer.nvidia.com/nvidia-triton-inference-server).  
-Supports ONNX → TensorRT conversion, auto-config generation, and easy deployment via Docker.
-For detailed configuration instructions, see the [official Triton documentation](https://docs.nvidia.com/deeplearning/triton-inference-server/archives/triton_inference_server_1120/triton-inference-server-guide/docs/index.html#)
+
+**odlab-triton** is a lightweight, modular toolkit for deploying **Computer Vision models** using [NVIDIA Triton Inference Server](https://developer.nvidia.com/nvidia-triton-inference-server), supporting:
+- ONNX → TensorRT conversion  
+- Auto-generated model configuration  
+- Easy deployment via Docker  
+- Perf_analyser the performance 
+
+For detailed configuration instructions, refer to the [official Triton documentation](<https://docs.nvidia.com/deeplearning/triton-inference-server/archives/triton_inference_server_1120/triton-inference-server-guide/docs/index.html>).
+
 ---
 
 ## Project structure
