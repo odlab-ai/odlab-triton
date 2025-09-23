@@ -35,13 +35,10 @@ weights/
 └── model.onnx
 ```
 
----
-
 ### 2️. Convert ONNX to TensorRT  
 
 Use `Docker.convert` image/container to convert ONNX to TensorRT.
 
----
 
 ### 3️. Configure Model Repository  
 
@@ -59,7 +56,6 @@ To create or update a configuration for a specific model **version** (model ID),
 python scripts/generate_config.py weights/model.onnx model_repository/model/<version>
 ```
 
----
 
 ### 4️. Environment Variables  
 
@@ -69,8 +65,6 @@ Create a `.env` file in the root:
 IMAGE_NAME=odlab-triton-detection
 IMAGE_VERSION=latest
 ```
-
----
 
 ### 5️. Deploy Triton Inference Server  
 
@@ -88,17 +82,8 @@ Triton will be available on:
 | 8069 | gRPC     |
 | 8070 | Metrics  |
 
----
 
-### 6️. Send Inference Requests  
-
-Use the Triton Client SDK or your own scripts to send inference requests:
-
-```bash
-python client.py --image assets/test.jpg --url localhost:8069
-```
-
-### 7. Benchmark with `perf_analyzer`
+### 6. Benchmark with `perf_analyzer`
 Install perf_analyzer
 [recommended method](https://github.com/triton-inference-server/perf_analyzer/blob/main/docs/install.md) or simply install via
 `pip install perf-analyzer`
