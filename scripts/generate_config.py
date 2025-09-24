@@ -57,7 +57,8 @@ def render_config(model_name, io_info, max_batch_size=16):
     )
 
 def generate_config(onnx_path, save_dir):
-    name = os.path.splitext(os.path.basename(onnx_path))[0]
+    # name = os.path.splitext(os.path.basename(onnx_path))[0]
+    name = "model" # set default
     os.makedirs(save_dir, exist_ok=True)
 
     io_info = extract_io_info(onnx_path)

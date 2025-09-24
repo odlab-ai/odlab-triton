@@ -5,7 +5,7 @@ services:
     image: "${IMAGE_NAME}:${IMAGE_VERSION}"
     build:
       context: .
-      dockerfile: Docker.triton
+      dockerfile: Dockerfile.triton
     shm_size: 1g
     ports:
       - "8068:8000"
@@ -13,10 +13,10 @@ services:
       - "8070:8002"
     volumes:
       - ./model_repository:/models
-      - ./workspace:/workspace
     deploy:
       resources:
         reservations:
           devices:
             - capabilities: [gpu]
+    restart: unless-stopped
     command: tritonserver --model-repository=/models
