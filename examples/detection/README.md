@@ -8,7 +8,7 @@ This example demonstrates how to convert a YoloV9 ONNX model to a Triton Inferen
 
 **1. Prepare Model**
 
-Download YoloV9-C ONNX model and puts in `weights/`:
+Download [YoloV9-C ONNX](https://github.com/odlab-ai/odlab-triton/releases/download/v0.0.1/yolov9-c.onnx) model and puts in `weights/`:
 
 ```
 weights/
