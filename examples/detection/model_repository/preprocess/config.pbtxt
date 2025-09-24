@@ -1,0 +1,48 @@
+name: "preprocess"
+backend: "python"
+
+max_batch_size: 16
+
+input [
+  {
+    name: "INPUT_0"
+    data_type: TYPE_UINT8
+    dims: [-1, -1, -1]
+  }
+]
+
+output [
+  {
+    name: "OUTPUT_0"
+    data_type: TYPE_FP32
+    dims: [3, 640, 640] # image tensort numpy
+  },
+  {
+    name: "OUTPUT_1"
+    data_type: TYPE_FP32
+    dims: [ 1 ] # ratio
+  },
+  {
+    name: "OUTPUT_2"
+    data_type: TYPE_FP32
+    dims: [ 2 ] # (dw, dh)
+  },
+  {
+    name: "OUTPUT_3"
+    data_type: TYPE_INT32
+    dims: [ 2 ] # (H, W) original image
+  }
+]
+
+dynamic_batching {
+  max_queue_delay_microseconds: 100
+  preferred_batch_size: [1, 4, 8, 16]
+}
+
+instance_group [
+  {
+    kind: KIND_GPU
+    count: 1
+    gpus: [ 0 ]
+  }
+]
