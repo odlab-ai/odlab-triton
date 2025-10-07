@@ -20,7 +20,22 @@ weights/
 In this tutorial, the `model_repository` already includes an implemented YoloV9 ensemble consisting of image preprocessing, NMS postprocessing, and a TensorRT inference model.
 
 
-**3. Convert ONNX to TensorRT**
+**3. Configure Model Repository**
+
+- Setup environment
+    ```
+    conda create -n odlab-env python==3.11 -y
+    conda activate odlab-env
+
+    pip install onnx Jinja2
+    ```
+
+- Model configuration files in `model_repository/` are automatically generated.  
+    ```bash
+    python scripts/generate_config.py weights/yolov9-c.onnx model_repository/model
+    ```
+
+**4. Convert ONNX to TensorRT**
 
 Use `scripts/onnx2trt.sh` to convert ONNX to TensorRT engine. The input width and height are fixed at `640x640`. To enable dynamic batching, configure the minimum, optimized, and maximum batch sizes using the following environment variables in `onnx2trt.sh`:
 ```bash
@@ -48,20 +63,7 @@ docker run --rm -it --gpus all \
 ```
 Result of the YoloV9 engine:
 ![ONNX to TensorRT conversion](assets/onnx2trt.jpg)
-**4. Configure Model Repository**
 
-- Setup environment
-    ```
-    conda create -n odlab-env python==3.11 -y
-    conda activate odlab-env
-
-    pip install onnx Jinja2
-    ```
-
-- Model configuration files in `model_repository/` are automatically generated.  
-    ```bash
-    python scripts/generate_config.py weights/yolov9-c.onnx model_repository/model
-    ```
 
 **5. Environment Variables**
 

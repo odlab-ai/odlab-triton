@@ -40,20 +40,7 @@ weights/
 Configure the model ensemble pipeline and its configuration files (`config.pbtxt`), including settings such as the number of GPUs to deploy, the maximum batch size, and the input/output specifications for each step. The ensemble model includes a preprocessing model (`preprocess`) that handles image preprocessing, a postprocessing model (`postprocess`) that performs tasks such as NMS, and a TensorRT model (`inference`) that executes the main inference.
 
 
-### 3. Convert ONNX to TensorRT  
-
-Use `scripts/onnx2trt.sh` to convert ONNX to TensorRT.
-
-```bash
-docker run --rm -it --gpus all \
-  -v $(pwd)/weights:/workspace/weights \
-  -v $(pwd)/model_repository:/workspace/model_repository \
-  -v $(pwd)/scripts:/workspace/scripts \
-  nvcr.io/nvidia/tensorrt:25.04-py3 \
-  /bin/bash -c "pip install --no-cache-dir onnx && bash /workspace/scripts/onnx2trt.sh"
-```
-
-### 4. Configure Model Repository  
+### 3. Configure Model Repository  
 
 Setup environment
 ```
@@ -69,6 +56,18 @@ To create or update a configuration for a specific model **version** (model ID),
 python scripts/generate_config.py weights/model.onnx model_repository/model
 ```
 
+### 4. Convert ONNX to TensorRT  
+
+Use `scripts/onnx2trt.sh` to convert ONNX to TensorRT.
+
+```bash
+docker run --rm -it --gpus all \
+  -v $(pwd)/weights:/workspace/weights \
+  -v $(pwd)/model_repository:/workspace/model_repository \
+  -v $(pwd)/scripts:/workspace/scripts \
+  nvcr.io/nvidia/tensorrt:25.04-py3 \
+  /bin/bash -c "pip install --no-cache-dir onnx && bash /workspace/scripts/onnx2trt.sh"
+```
 
 ### 5. Environment Variables  
 
